@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.dialect">
+			org.hibernate.dialect.MySQLDialect
+		</property>
+		<property name="hibernate.connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/grupo22</property>
+		<property name="hibernate.connection.username">grupo22</property>
+		<property name="hibernate.connection.password">grupo22</property>
+		
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.format_sql">
+			true
+		</property>
+
+		<!-- Colocar las referencias a los archivos de mapping en este punto -->
+
+	</session-factory>
+</hibernate-configuration>
