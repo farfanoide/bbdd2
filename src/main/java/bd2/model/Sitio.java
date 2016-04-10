@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * The Class Sitio.
+ * Clase Sitio.
  *
  * @author farfanoide
  */
