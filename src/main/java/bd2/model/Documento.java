@@ -9,7 +9,8 @@ public class Documento {
     protected Collection<Parrafo> parrafos = new HashSet<Parrafo>();
     private long id;
 
-    public Documento(){}
+    public Documento() {
+    }
 
     public Documento(String nombre, Idioma idioma) {
         this.nombre = nombre;
@@ -33,6 +34,10 @@ public class Documento {
         this.nombre = nombre;
     }
 
+    /**
+     * @param texto
+     * @return
+     */
     public Parrafo agregarParrafo(String texto) {
         Parrafo nuevo = new Parrafo(texto, this);
         this.parrafos.add(nuevo);

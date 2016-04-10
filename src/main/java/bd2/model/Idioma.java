@@ -1,5 +1,16 @@
 package bd2.model;
 
+/**
+ * Esta ckase
+ *
+ * @author farfanoide
+ */
+
+/*
+ * clases
+ * methods with domain logic
+ * variables de instancia
+ * */
 public class Idioma {
     protected String nombre;
     protected Diccionario diccionario;
