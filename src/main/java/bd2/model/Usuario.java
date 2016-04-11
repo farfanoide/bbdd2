@@ -39,7 +39,6 @@ public class Usuario {
 	 *            the fecha de creacion
 	 */
 	public Usuario(String email, String nombre, Date fechaDeCreacion) {
-		super();
 		this.email = email;
 		this.nombre = nombre;
 		this.fechaDeCreacion = fechaDeCreacion;

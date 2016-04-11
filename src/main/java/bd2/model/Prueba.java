@@ -28,15 +28,6 @@ public class Prueba {
 		this.setPuntaje(puntaje);
 	}
 
-	/**
-	 * Instantiates a new prueba.
-	 *
-	 * @throws Exception
-	 *             the exception
-	 */
-	public Prueba() throws Exception {
-		super();
-	}
 
 	/**
 	 * Gets the puntaje.
