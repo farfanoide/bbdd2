@@ -3,15 +3,16 @@ package bd2.model;
 import java.util.Date;
 
 /**
- * The Class Evaluacion.
+ * The Class Evaluacion. Utilizada para representar la evaluacion de una
+ * traduccion de un usuario (aprendiz).
  *
- * @author farfanoide 
+ * @author farfanoide
  */
 public class Evaluacion extends Tarea {
 
     /** The traduccion. */
     protected Traduccion traduccion;
-    
+
     /** The puntaje. */
     protected int puntaje;
 

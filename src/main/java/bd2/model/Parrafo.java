@@ -1,9 +1,9 @@
 package bd2.model;
 
 /**
- * @author farfanoide
+ * The Class Parrafo. representa un parrafo de un `Documento`.
  *
- * The Class Parrafo.
+ * @author farfanoide
  */
 public class Parrafo {
 

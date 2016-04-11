@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author farfanoide
+ * The Class Diccionario. Esta clase representa un diccionario donde
+ * guardaremos definiciones para palabras.
  *
- *         Esta clase representa un diccionario donde guardaremos definiciones
- *         para palabras.
+ * @author farfanoide
  */
 public class Diccionario {
 

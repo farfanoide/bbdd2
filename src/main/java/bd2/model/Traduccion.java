@@ -3,7 +3,7 @@ package bd2.model;
 import java.util.Date;
 
 /**
- * The Class Traduccion.
+ * The Class Traduccion. representa una traduccion realizada por un usuario.
  *
  * @author farfanoide
  */

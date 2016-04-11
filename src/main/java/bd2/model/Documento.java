@@ -4,9 +4,11 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
+ * The Class Documento. representa un documento en el sistema el cual esta
+ * compuesto por una coleccion de `Parrafos` y un `Idioma`
+ *
  * @author farfanoide
  *
- *         The Class Documento.
  */
 public class Documento {
 

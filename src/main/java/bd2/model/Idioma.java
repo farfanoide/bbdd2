@@ -1,7 +1,7 @@
 package bd2.model;
 
 /**
- * The Class Idioma.
+ * The Class Idioma. Representa un idioma del sitio
  *
  * @author farfanoide
  */
