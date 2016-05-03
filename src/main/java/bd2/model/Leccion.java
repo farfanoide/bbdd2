@@ -9,6 +9,16 @@ public class Leccion {
     
     /** Atributo nombre. */
     protected String nombre;
+    
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     /**
      * Constructor para instanciar lecciones.

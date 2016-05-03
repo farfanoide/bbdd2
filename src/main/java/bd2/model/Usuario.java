@@ -13,167 +13,177 @@ import java.util.Date;
  */
 public class Usuario {
 
-	/** The email. */
-	protected String email;
+    /** The email. */
+    protected String email;
 
-	/** The nombre. */
-	protected String nombre;
+    /** The nombre. */
+    protected String nombre;
 
-	/** The fecha de creacion. */
-	protected Date fechaDeCreacion;
+    /** The fecha de creacion. */
+    protected Date fechaDeCreacion;
 
-	/** The traducciones. */
-	protected Collection<Traduccion> traducciones = new HashSet<Traduccion>();
+    /** The traducciones. */
+    protected Collection<Traduccion> traducciones = new HashSet<Traduccion>();
 
-	/** The cursadas realizadas. */
-	protected Collection<Cursada> cursadasRealizadas = new HashSet<Cursada>();
+    /** The cursadas realizadas. */
+    protected Collection<Cursada> cursadasRealizadas = new HashSet<Cursada>();
 
-	/**
-	 * Instantiates a new usuario.
-	 *
-	 * @param email
-	 *            the email
-	 * @param nombre
-	 *            the nombre
-	 * @param fechaDeCreacion
-	 *            the fecha de creacion
-	 */
-	public Usuario(String email, String nombre, Date fechaDeCreacion) {
-		this.email = email;
-		this.nombre = nombre;
-		this.fechaDeCreacion = fechaDeCreacion;
-	}
+    private long id;
 
-	/**
-	 * Gets the email.
-	 *
-	 * @return the email
-	 */
-	public String getEmail() {
-		return this.email;
-	}
+    public long getId() {
+        return id;
+    }
 
-	/**
-	 * Sets the email.
-	 *
-	 * @param email
-	 *            the new email
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	/**
-	 * Gets the nombre.
-	 *
-	 * @return the nombre
-	 */
-	public String getNombre() {
-		return this.nombre;
-	}
+    /**
+     * Instantiates a new usuario.
+     *
+     * @param email
+     *            the email
+     * @param nombre
+     *            the nombre
+     * @param fechaDeCreacion
+     *            the fecha de creacion
+     */
+    public Usuario(String email, String nombre, Date fechaDeCreacion) {
+        this.email = email;
+        this.nombre = nombre;
+        this.fechaDeCreacion = fechaDeCreacion;
+    }
 
-	/**
-	 * Sets the nombre.
-	 *
-	 * @param nombre
-	 *            the new nombre
-	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    /**
+     * Gets the email.
+     *
+     * @return the email
+     */
+    public String getEmail() {
+        return this.email;
+    }
 
-	/**
-	 * Gets the fecha de creacion.
-	 *
-	 * @return the fecha de creacion
-	 */
-	public Date getFechaDeCreacion() {
-		return this.fechaDeCreacion;
-	}
+    /**
+     * Sets the email.
+     *
+     * @param email
+     *            the new email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	/**
-	 * Sets the fecha de creacion.
-	 *
-	 * @param fechaDeCreacion
-	 *            the new fecha de creacion
-	 */
-	public void setFechaDeCreacion(Date fechaDeCreacion) {
-		this.fechaDeCreacion = fechaDeCreacion;
-	}
+    /**
+     * Gets the nombre.
+     *
+     * @return the nombre
+     */
+    public String getNombre() {
+        return this.nombre;
+    }
 
-	/**
-	 * Agregar cursada.
-	 *
-	 * @param cursada
-	 *            the cursada
-	 */
-	public void agregarCursada(Cursada cursada) {
-		this.cursadasRealizadas.add(cursada);
-	}
+    /**
+     * Sets the nombre.
+     *
+     * @param nombre
+     *            the new nombre
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	/**
-	 * Agregar traduccion.
-	 *
-	 * @param traduccion
-	 *            the traduccion
-	 */
-	public void agregarTraduccion(Traduccion traduccion) {
-		this.traducciones.add(traduccion);
-	}
+    /**
+     * Gets the fecha de creacion.
+     *
+     * @return the fecha de creacion
+     */
+    public Date getFechaDeCreacion() {
+        return this.fechaDeCreacion;
+    }
 
-	/**
-	 * Nivel: Retorna el nivel maximo entre las cursadas aprobadas para un
-	 * idioma dado. Itera sobre las cursadas aprobadas guardando en una variable
-	 * auxiliar el mayor actual
-	 *
-	 * @param idioma
-	 *            the idioma
-	 * @return the int
-	 */
+    /**
+     * Sets the fecha de creacion.
+     *
+     * @param fechaDeCreacion
+     *            the new fecha de creacion
+     */
+    public void setFechaDeCreacion(Date fechaDeCreacion) {
+        this.fechaDeCreacion = fechaDeCreacion;
+    }
 
-	public int nivel(Idioma idioma) {
-		int nivel = 0;
-		for (Cursada cursada : this.cursadasAprobadas(idioma))
-			if (nivel < cursada.getNivel())
-				nivel = cursada.getNivel();
-		return nivel;
-	}
+    /**
+     * Agregar cursada.
+     *
+     * @param cursada
+     *            the cursada
+     */
+    public void agregarCursada(Cursada cursada) {
+        this.cursadasRealizadas.add(cursada);
+    }
 
-	/**
-	 * Cursadas aprobadas: Retorna todas las cursadas aprobadas cuyos cursos son
-	 * del idioma recibido por parametro. Itera sobre todas las cursadas
-	 * realizadas preguntando por cada una si finalizo y si el idioma es el
-	 * mismo que el recibido como parametro, en tal caso lo agrega a una
-	 * coleccion auxiliar.
-	 *
-	 * @param idioma
-	 *            the idioma
-	 * @return the collection
-	 */
-	public Collection<Cursada> cursadasAprobadas(Idioma idioma) {
-		Collection<Cursada> aprobadas = new ArrayList<Cursada>();
-		for (Cursada cursada : this.getCursadasRealizadas())
-			if (cursada.finalizada() & cursada.getIdioma().equals(idioma))
-				aprobadas.add(cursada);
-		return aprobadas;
-	}
+    /**
+     * Agregar traduccion.
+     *
+     * @param traduccion
+     *            the traduccion
+     */
+    public void agregarTraduccion(Traduccion traduccion) {
+        this.traducciones.add(traduccion);
+    }
 
-	/**
-	 * Gets the cursadas realizadas.
-	 *
-	 * @return the cursadas realizadas
-	 */
-	public Collection<Cursada> getCursadasRealizadas() {
-		return this.cursadasRealizadas;
-	}
+    /**
+     * Nivel: Retorna el nivel maximo entre las cursadas aprobadas para un
+     * idioma dado. Itera sobre las cursadas aprobadas guardando en una variable
+     * auxiliar el mayor actual
+     *
+     * @param idioma
+     *            the idioma
+     * @return the int
+     */
 
-	/**
-	 * Gets the traducciones.
-	 *
-	 * @return the traducciones
-	 */
-	public Collection<Traduccion> getTraducciones() {
-		return this.traducciones;
-	}
+    public int nivel(Idioma idioma) {
+        int nivel = 0;
+        for (Cursada cursada : this.cursadasAprobadas(idioma))
+            if (nivel < cursada.getNivel())
+                nivel = cursada.getNivel();
+        return nivel;
+    }
+
+    /**
+     * Cursadas aprobadas: Retorna todas las cursadas aprobadas cuyos cursos son
+     * del idioma recibido por parametro. Itera sobre todas las cursadas
+     * realizadas preguntando por cada una si finalizo y si el idioma es el
+     * mismo que el recibido como parametro, en tal caso lo agrega a una
+     * coleccion auxiliar.
+     *
+     * @param idioma
+     *            the idioma
+     * @return the collection
+     */
+    public Collection<Cursada> cursadasAprobadas(Idioma idioma) {
+        Collection<Cursada> aprobadas = new ArrayList<Cursada>();
+        for (Cursada cursada : this.getCursadasRealizadas())
+            if (cursada.finalizada() & cursada.getIdioma().equals(idioma))
+                aprobadas.add(cursada);
+        return aprobadas;
+    }
+
+    /**
+     * Gets the cursadas realizadas.
+     *
+     * @return the cursadas realizadas
+     */
+    public Collection<Cursada> getCursadasRealizadas() {
+        return this.cursadasRealizadas;
+    }
+
+    /**
+     * Gets the traducciones.
+     *
+     * @return the traducciones
+     */
+    public Collection<Traduccion> getTraducciones() {
+        return this.traducciones;
+    }
 
 }
