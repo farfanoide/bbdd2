@@ -27,6 +27,8 @@ public class Moderador extends Usuario {
 	 * @param fechaDeCreacion
 	 *            the fecha de creacion
 	 */
+	public Moderador() {}
+	
 	public Moderador(String email, String nombre, Date fechaDeCreacion) {
 		super(email, nombre, fechaDeCreacion);
 	}
@@ -49,6 +51,9 @@ public class Moderador extends Usuario {
 		return this.evaluaciones;
 	}
 
+	public void setEvaluaciones(Collection<Evaluacion> evaluaciones){
+		this.evaluaciones = evaluaciones;
+	}
 	/**
 	 * Agregar evaluacion.
 	 *
@@ -66,6 +71,10 @@ public class Moderador extends Usuario {
 	 */
 	public Collection<Idioma> getIdiomas() {
 		return this.idiomas;
+	}
+
+	public void setIdiomas(Collection<Idioma> idiomas){
+		this.idiomas = idiomas;
 	}
 
 	/**

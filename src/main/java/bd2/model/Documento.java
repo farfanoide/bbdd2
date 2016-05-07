@@ -23,7 +23,7 @@ public class Documento {
 
     /** The complejidad. */
     protected Integer complejidad;
-    
+
     private long id;
 
     public long getId() {
@@ -37,8 +37,7 @@ public class Documento {
     /**
      * Instantiates a new documento.
      */
-    public Documento() {
-    }
+    public Documento(){}
 
     /**
      * Instantiates a new documento.
@@ -48,6 +47,8 @@ public class Documento {
      * @param idioma
      *            the idioma
      */
+
+
     public Documento(String nombre, Idioma idioma) {
         this.nombre = nombre;
         this.idioma = idioma;
@@ -148,4 +149,7 @@ public class Documento {
         return this.parrafos;
     }
 
+    public void setParrafos(Collection<Parrafo> parrafos) {
+        this.parrafos = parrafos;
+	}
 }

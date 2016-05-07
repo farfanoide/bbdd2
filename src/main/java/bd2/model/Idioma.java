@@ -26,8 +26,7 @@ public class Idioma {
     /**
      * Instantiates a new idioma.
      */
-    public Idioma() {
-    }
+    public Idioma() {}
 
     /**
      * Instantiates a new idioma.

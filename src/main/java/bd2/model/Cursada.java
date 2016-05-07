@@ -25,7 +25,7 @@ public class Cursada {
 
 	/** The pruebas. */
 	protected Collection<Prueba> pruebas = new HashSet<Prueba>();
-	
+
 	private long id;
 
 	public long getId() {
@@ -36,6 +36,9 @@ public class Cursada {
         this.id = id;
     }
 
+    public Cursada(){
+
+    }
     /**
 	 * Instantiates a new cursada.
 	 *
@@ -126,6 +129,10 @@ public class Cursada {
 	 */
 	public Collection<Prueba> getPruebas() {
 		return pruebas;
+	}
+
+	public void setPruebas(Collection<Prueba> pruebas) {
+        this.pruebas = pruebas;
 	}
 
 	/**

@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * The Class Usuario. Representa a un usuario del sistema, el cual tiene datos
  * personales e informacion sobre sus cursadas.
- * 
+ *
  * @author
  */
 public class Usuario {
@@ -38,6 +38,7 @@ public class Usuario {
         this.id = id;
     }
 
+    public Usuario() {}
     /**
      * Instantiates a new usuario.
      *
@@ -48,6 +49,7 @@ public class Usuario {
      * @param fechaDeCreacion
      *            the fecha de creacion
      */
+
     public Usuario(String email, String nombre, Date fechaDeCreacion) {
         this.email = email;
         this.nombre = nombre;
@@ -177,6 +179,11 @@ public class Usuario {
         return this.cursadasRealizadas;
     }
 
+    public void setCursadasRealizadas(Collection<Cursada> cursadas){
+    	this.cursadasRealizadas = cursadas;
+    }
+
+
     /**
      * Gets the traducciones.
      *
@@ -185,5 +192,10 @@ public class Usuario {
     public Collection<Traduccion> getTraducciones() {
         return this.traducciones;
     }
+
+    public void setTraducciones(Collection<Traduccion> traducciones){
+    	this.traducciones = traducciones;
+    }
+
 
 }

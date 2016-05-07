@@ -25,6 +25,8 @@ public class Evaluacion extends Tarea {
      * @param traduccion the traduccion
      * @param puntaje the puntaje
      */
+    public Evaluacion(){}
+    
     public Evaluacion(Date fecha, String descripcion, Boolean completa, Traduccion traduccion, int puntaje) {
         super(fecha, descripcion, completa);
         this.traduccion = traduccion;

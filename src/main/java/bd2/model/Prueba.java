@@ -31,6 +31,8 @@ public class Prueba {
 	 * @throws Exception
 	 *             the exception
 	 */
+    public Prueba(){}
+    
 	public Prueba(Leccion leccion, Integer puntaje) throws Exception {
 		this.setLeccion(leccion);
 		this.setPuntaje(puntaje);

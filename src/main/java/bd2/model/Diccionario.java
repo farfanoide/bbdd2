@@ -38,6 +38,8 @@ public class Diccionario {
      * @param edicion
      *            la edicion
      */
+    public Diccionario(){}
+    
     public Diccionario(Idioma idioma, String edicion) {
         this.idioma = idioma;
         this.edicion = edicion;

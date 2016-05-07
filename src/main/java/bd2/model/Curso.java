@@ -3,26 +3,26 @@ package bd2.model;
 import java.util.Collection;
 import java.util.HashSet;
 
-	
+
 /**
  * The Class Curso: Representa cursos del sitio.
  *
- * @author 
+ * @author
  */
 public class Curso {
-    
+
     /** The nombre. */
     protected String nombre;
-    
+
     /** The idioma. */
     protected Idioma idioma;
-    
+
     /** The nivel. */
     protected int nivel;
-    
+
     /** The lecciones. */
     protected Collection<Leccion> lecciones = new HashSet<Leccion>();
-    
+
     private long id;
 
     public long getId() {
@@ -41,11 +41,13 @@ public class Curso {
      * @param idioma the idioma
      * @param nivel the nivel
      */
+    public Curso(){}
+
     public Curso(String nombre, Idioma idioma, int nivel) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.idioma = idioma;
-    }	
+    }
 
     /**
      * Gets the nombre.
@@ -91,6 +93,9 @@ public class Curso {
     public Collection<Leccion> getLecciones() {
         return this.lecciones;
     }
+    public void setLecciones(Collection<Leccion> lecciones) {
+        this.lecciones = lecciones;
+	}
 
 
     /**

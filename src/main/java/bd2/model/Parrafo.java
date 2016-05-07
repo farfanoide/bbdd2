@@ -29,6 +29,8 @@ public class Parrafo {
      * @param documento
      *            the documento
      */
+    public Parrafo(){}
+    
     public Parrafo(String texto, Documento documento) {
         this.texto = texto;
         this.documento = documento;

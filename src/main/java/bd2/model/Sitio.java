@@ -25,6 +25,7 @@ public class Sitio {
         this.id = id;
     }
 
+
     /**
      * Los cursos. Idem usuarios.
      */
@@ -36,6 +37,7 @@ public class Sitio {
     /**
      * Instantiates a new sitio.
      */
+
     public Sitio() {
         this.usuarios = new HashSet<Usuario>();
         this.cursos = new HashSet<Curso>();
@@ -43,14 +45,17 @@ public class Sitio {
     }
 
     /**
-     * Gets the usuarios.
+     * Get y set the usuarios.
      *
      * @return the usuarios
      */
     public Collection<Usuario> getUsuarios() {
         return this.usuarios;
     }
-
+    
+    public void setUsuarios(Collection<Usuario> usuarios){
+    	this.usuarios = usuarios;
+    }
     /**
      * Registrar usuario.
      *
@@ -68,6 +73,10 @@ public class Sitio {
      */
     public Collection<Curso> getCursos() {
         return this.cursos;
+    }
+    
+    public void setCursos(Collection<Curso> cursos){
+    	this.cursos = cursos;
     }
 
     /**
@@ -98,4 +107,9 @@ public class Sitio {
     public Collection<Documento> getDocumentos() {
         return this.documentos;
     }
+    
+    public void setDocumentos(Collection<Documento> documentos){
+    	this.documentos = documentos;
+    }
+
 }

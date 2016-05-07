@@ -34,6 +34,8 @@ public class Traduccion extends Tarea {
      * @param idioma
      *            the idioma
      */
+    public Traduccion(){}
+    
     public Traduccion(Date fecha, String descripcion, Boolean completa, String texto, Parrafo parrafo, Idioma idioma) {
         super(fecha, descripcion, completa);
         this.texto = texto;

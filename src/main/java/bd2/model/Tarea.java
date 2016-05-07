@@ -39,6 +39,8 @@ public abstract class Tarea {
      * @param completa
      *            the completa
      */
+    public Tarea(){}
+    
     public Tarea(Date fecha, String descripcion, Boolean completa) {
         this.fecha = fecha;
         this.descripcion = descripcion;

@@ -25,6 +25,8 @@ public class Leccion {
      *
      * @param nombre: nombre que representara la leccion.
      */
+    public Leccion(){}
+    
     public Leccion(String nombre) {
         this.nombre = nombre;
     }

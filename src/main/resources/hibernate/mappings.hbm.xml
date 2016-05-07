@@ -4,248 +4,183 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <!-- Generated May 3, 2016 7:48:01 PM by Hibernate Tools 3.5.0.Final -->
-<hibernate-mapping>
+<hibernate-mapping package="bd2.model">
 
-    <class name="bd2.model.Cursada" table="CURSADA">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
+    <class name="Cursada" table="cursada">
+        <id name="id" column="cursada_id">
+            <generator class="native" />
         </id>
-        <many-to-one name="curso" class="bd2.model.Curso" fetch="join">
-            <column name="CURSO" />
-        </many-to-one>
-        <property name="inicio" type="java.util.Date">
-            <column name="INICIO" />
-        </property>
-        <many-to-one name="usuario" class="bd2.model.Usuario" fetch="join">
-            <column name="USUARIO" />
-        </many-to-one>
-        <bag name="pruebas" table="PRUEBA" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Prueba" />
-        </bag>
+        <many-to-one name="curso" column="curso_id" unique="false" not-null="true"/>
+
+        <property name="inicio"/>
+
+        <set name="pruebas" cascade="all">
+            <key column="cursada_id"/>
+            <one-to-many class="Prueba"/>
+        </set>
     </class>
 
-    <class name="bd2.model.Curso" table="CURSO">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
+
+    <class name="Curso" table="curso">
+        <id name="id" column="curso_id">
+            <generator class="native" />
         </id>
-        <property name="nombre" type="java.lang.String">
-            <column name="NOMBRE" />
-        </property>
-        <many-to-one name="idioma" class="bd2.model.Idioma" fetch="join">
-            <column name="IDIOMA" />
-        </many-to-one>
-        <property name="nivel" type="int">
-            <column name="NIVEL" />
-        </property>
-        <bag name="lecciones" table="LECCION" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Leccion" />
-        </bag>
+
+        <property name="nombre" />
+        <property name="nivel" type="int"/>
+
+        <many-to-one name="idioma" column="idioma_id" not-null="true"/>
+
+        <set name="lecciones" cascade="all">
+            <key column="curso_id"/>
+            <one-to-many class="Leccion"/>
+        </set>
     </class>
 
-    <class name="bd2.model.Diccionario" table="DICCIONARIO">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
+
+    <class name="Diccionario" table="diccionario">
+        <id name="id" column="diccinario_id">
+            <generator class="native" />
         </id>
-        <map name="definiciones" table="DICCIONARIO" lazy="true">
-            <key>
-                <column name="ID" />
-            </key>
-            <map-key type="java.lang.String"></map-key>
-            <element type="java.lang.String">
-                <column name="DEFINICIONES" />
-            </element>
+        <many-to-one name="idioma" column="idioma_id" unique="true" not-null="true"/>
+
+        <map name="definiciones" table="diccionario_definiciones">
+            <key column="id"/>
+            <index column="palabra" type="string" />
+            <element column="definicion" type="string" />
         </map>
-        <one-to-one name="idioma" class="bd2.model.Idioma"></one-to-one>
-        <property name="edicion" type="java.lang.String">
-            <column name="EDICION" />
-        </property>
+
+        <property name="edicion" />
     </class>
 
-    <class name="bd2.model.Documento" table="DOCUMENTO">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
+
+    <class name="Documento" table="documento">
+        <id name="id" column="documento_id">
+            <generator class="native" />
         </id>
-        <many-to-one name="idioma" class="bd2.model.Idioma" fetch="join">
-            <column name="IDIOMA" />
-        </many-to-one>
-        <bag name="parrafos" table="PARRAFO" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Parrafo" />
-        </bag>
-        <property name="nombre" type="java.lang.String">
-            <column name="NOMBRE" />
-        </property>
-        <property name="complejidad" type="java.lang.Integer">
-            <column name="COMPLEJIDAD" />
-        </property>
+
+        <many-to-one name="idioma" column="idioma_id" cascade="all" not-null="true"/>
+
+        <set name="parrafos" cascade="all">
+            <key column="documento_id"/>
+            <one-to-many class="Parrafo"/>
+        </set>
+
+        <property name="nombre"/>
     </class>
 
-    <subclass name="bd2.model.Evaluacion" extends="bd2.model.Tarea" discriminator-value="Evaluacion" lazy="false">
-        <many-to-one name="traduccion" class="bd2.model.Traduccion" fetch="join">
-            <column name="TRADUCCION" />
-        </many-to-one>
-        <property name="puntaje" type="int">
-            <column name="PUNTAJE" />
-        </property>
+
+    <class name="Idioma" table="idioma">
+        <id name="id" column="idioma_id">
+            <generator class="native" />
+        </id>
+        <property name="nombre" />
+        <many-to-one name="diccionario" column="diccionario_id" cascade="all" unique="true"/>
+    </class>
+
+
+    <class name="Leccion" table="leccion">
+        <id name="id" column="leccion_id">
+            <generator class="native" />
+        </id>
+        <property name="nombre" />
+    </class>
+
+
+    <class name="Parrafo" table="parrafo">
+        <id name="id" column="parrafo_id">
+            <generator class="native" />
+        </id>
+        <property name="texto" type="text" />
+    </class>
+
+
+    <class name="Prueba" table="prueba">
+        <id name="id" column="prueba_id">
+            <generator class="native" />
+        </id>
+
+        <property name="puntaje"/>
+        <many-to-one name="leccion" column="leccion_id" cascade="all" not-null="true"/>
+    </class>
+
+
+    <class name="Sitio" table="sitio">
+        <id name="id" column="sitio_id">
+            <generator class="native" />
+        </id>
+
+        <set name="usuarios" lazy="true" cascade="all">
+            <key column="sitio_id" />
+            <one-to-many class="Usuario" />
+        </set>
+
+        <set name="cursos" lazy="true" cascade="all">
+            <key column="sitio_id" />
+            <one-to-many class="Curso" />
+        </set>
+
+        <set name="documentos" lazy="true" cascade="all">
+            <key column="sitio_id" />
+            <one-to-many class="Documento" />
+        </set>
+    </class>
+
+
+    <class name="Tarea" table="tarea">
+        <id name="id" column="tarea_id">
+            <generator class="native" />
+        </id>
+        <discriminator column="subclase_tarea" type="string" />
+        <property name="fecha" />
+        <property name="descripcion" />
+        <property name="completa" />
+    </class>
+
+
+    <class name="Usuario" table="usuario" discriminator-value="U">
+        <id name="id" column="usuario_id">
+            <generator class="native" />
+        </id>
+        <discriminator column="subclase_usuario" type="string" />
+
+        <property name="nombre"/>
+        <property name="fechaDeCreacion"/>
+        <property name="email"/>
+
+
+        <set name="cursadasRealizadas" cascade="all">
+            <key column="usuario_id"/>
+            <one-to-many class="Cursada"/>
+        </set>
+
+        <set name="traducciones" cascade="all">
+            <key column="usuario_id"/>
+            <one-to-many class="Traduccion"/>
+        </set>
+    </class>
+
+    <subclass name="Moderador" extends="Usuario" discriminator-value="M">
+        <set name="idiomas" table="idioma_moderador" cascade="all">
+            <key column="moderador_id"/>
+            <many-to-many column="idioma_id" class="Idioma"/>
+        </set>
+
+        <set name="evaluaciones" lazy="true" cascade="all">
+            <key column="moderador_id" />
+            <one-to-many class="Evaluacion" />
+        </set>
     </subclass>
 
-    <class name="bd2.model.Idioma" table="IDIOMA">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <property name="nombre" type="java.lang.String">
-            <column name="NOMBRE" />
-        </property>
-        <one-to-one name="diccionario" class="bd2.model.Diccionario"></one-to-one>
-    </class>
 
-    <class name="bd2.model.Leccion" table="LECCION">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <property name="nombre" type="java.lang.String">
-            <column name="NOMBRE" />
-        </property>
-    </class>
-
-    <joined-subclass name="bd2.model.Moderador" extends="bd2.model.Usuario" table="MODERADOR" lazy="false">
-        <key>
-            <column name="ID" />
-        </key>
-        <property name="id" type="java.lang.Long">
-            <column name="ID" />
-        </property>
-        <bag name="idiomas" table="IDIOMA" inverse="false" lazy="true" access="field">
-            <key></key>
-            <one-to-many class="bd2.model.Idioma" />
-        </bag>
-        <bag name="evaluaciones" table="EVALUACION" inverse="false" lazy="true" access="field">
-            <key></key>
-            <one-to-many class="bd2.model.Evaluacion" />
-        </bag>
-    </joined-subclass>
-
-    <class name="bd2.model.Parrafo" table="PARRAFO">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <property name="texto" type="java.lang.String">
-            <column name="TEXTO" />
-        </property>
-        <many-to-one name="documento" class="bd2.model.Documento" fetch="join">
-            <column name="DOCUMENTO" />
-        </many-to-one>
-    </class>
-
-    <class name="bd2.model.Prueba" table="PRUEBA">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <property name="puntaje" type="int">
-            <column name="PUNTAJE" />
-        </property>
-        <many-to-one name="leccion" class="bd2.model.Leccion" fetch="join">
-            <column name="LECCION" />
-        </many-to-one>
-    </class>
-
-    <class name="bd2.model.Sitio" table="SITIO">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <bag name="usuarios" table="USUARIO" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Usuario" />
-        </bag>
-        <bag name="cursos" table="CURSO" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Curso" />
-        </bag>
-        <bag name="documentos" table="DOCUMENTO" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Documento" />
-        </bag>
-    </class>
-
-    <class name="bd2.model.Tarea" table="TAREA" abstract="true">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <discriminator type="string">
-            <column name="DISCR_COL" />
-        </discriminator>
-        <property name="fecha" type="java.util.Date">
-            <column name="FECHA" />
-        </property>
-        <property name="descripcion" type="java.lang.String">
-            <column name="DESCRIPCION" />
-        </property>
-        <property name="completa" type="java.lang.Boolean">
-            <column name="COMPLETA" />
-        </property>
-    </class>
-
-    <subclass name="bd2.model.Traduccion" extends="bd2.model.Tarea" discriminator-value="Traduccion" lazy="false">
-        <property name="texto" type="java.lang.String">
-            <column name="TEXTO" />
-        </property>
-        <many-to-one name="parrafo" class="bd2.model.Parrafo" fetch="join">
-            <column name="PARRAFO" />
-        </many-to-one>
-        <many-to-one name="idioma" class="bd2.model.Idioma" fetch="join">
-            <column name="IDIOMA" />
-        </many-to-one>
+    <subclass name="Traduccion" extends="Tarea" discriminator-value="T">
+        <property name="texto" type="text" />
+        <many-to-one name="parrafo" column="parrafo_id" cascade="all" />
+        <many-to-one name="idioma" column="idioma_id" cascade="all" />
     </subclass>
 
-    <class name="bd2.model.Usuario" table="USUARIO">
-        <id name="id" type="long">
-            <column name="ID" />
-            <generator class="assigned" />
-        </id>
-        <property name="email" type="java.lang.String">
-            <column name="EMAIL" />
-        </property>
-        <property name="nombre" type="java.lang.String">
-            <column name="NOMBRE" />
-        </property>
-        <property name="fechaDeCreacion" type="java.util.Date">
-            <column name="FECHADECREACION" />
-        </property>
-        <bag name="traducciones" table="TRADUCCION" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Traduccion" />
-        </bag>
-        <bag name="cursadasRealizadas" table="CURSADA" inverse="false" lazy="true" access="field">
-            <key>
-                <column name="ID" />
-            </key>
-            <one-to-many class="bd2.model.Cursada" />
-        </bag>
-    </class>
+    <subclass name="Evaluacion" extends="Tarea" discriminator-value="E">
+        <many-to-one name="traduccion" column="traduccion_id" cascade="all" />
+    </subclass>
+
 </hibernate-mapping>
