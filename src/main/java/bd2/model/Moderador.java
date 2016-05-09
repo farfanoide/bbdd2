@@ -16,6 +16,15 @@ public class Moderador extends Usuario {
 
 	/** The idiomas. */
 	protected Collection<Idioma> idiomas = new HashSet<Idioma>();
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
 	/**
 	 * Instantiates a new moderador.
@@ -28,7 +37,7 @@ public class Moderador extends Usuario {
 	 *            the fecha de creacion
 	 */
 	public Moderador() {}
-	
+
 	public Moderador(String email, String nombre, Date fechaDeCreacion) {
 		super(email, nombre, fechaDeCreacion);
 	}

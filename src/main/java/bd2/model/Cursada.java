@@ -36,9 +36,7 @@ public class Cursada {
         this.id = id;
     }
 
-    public Cursada(){
-
-    }
+    public Cursada() {}
     /**
 	 * Instantiates a new cursada.
 	 *

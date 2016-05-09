@@ -138,11 +138,10 @@
     </class>
 
 
-    <class name="Usuario" table="usuario" discriminator-value="U">
+    <class name="Usuario" table="usuario">
         <id name="id" column="usuario_id">
             <generator class="native" />
         </id>
-        <discriminator column="subclase_usuario" type="string" />
 
         <property name="nombre"/>
         <property name="fechaDeCreacion"/>
@@ -158,19 +157,31 @@
             <key column="usuario_id"/>
             <one-to-many class="Traduccion"/>
         </set>
+        <joined-subclass name="Moderador" table="moderador">
+            <key column="usuario_id"/>
+            <set name="idiomas" table="idioma_moderador" cascade="all">
+                    <key column="moderador_id"/>
+                    <many-to-many column="idioma_id" class="Idioma"/>
+                </set>
+
+            <set name="evaluaciones" lazy="true" cascade="all">
+                    <key column="moderador_id" />
+                    <one-to-many class="Evaluacion" />
+                </set>
+        </joined-subclass>
     </class>
 
-    <subclass name="Moderador" extends="Usuario" discriminator-value="M">
-        <set name="idiomas" table="idioma_moderador" cascade="all">
-            <key column="moderador_id"/>
-            <many-to-many column="idioma_id" class="Idioma"/>
-        </set>
-
-        <set name="evaluaciones" lazy="true" cascade="all">
-            <key column="moderador_id" />
-            <one-to-many class="Evaluacion" />
-        </set>
-    </subclass>
+    <!-- <subclass name="Moderador" extends="Usuario" discriminator&#45;value="M"> -->
+            <!-- <set name="idiomas" table="idioma_moderador" cascade="all"> -->
+            <!--         <key column="moderador_id"/> -->
+            <!--         <many&#45;to&#45;many column="idioma_id" class="Idioma"/> -->
+            <!--     </set> -->
+            <!--  -->
+            <!-- <set name="evaluaciones" lazy="true" cascade="all"> -->
+            <!--         <key column="moderador_id" /> -->
+            <!--         <one&#45;to&#45;many class="Evaluacion" /> -->
+            <!--     </set> -->
+        <!-- </subclass> -->
 
 
     <subclass name="Traduccion" extends="Tarea" discriminator-value="T">
