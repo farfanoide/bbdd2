@@ -92,6 +92,7 @@
             <generator class="native" />
         </id>
         <property name="texto" type="text" />
+        <many-to-one name="documento" column="documento_id" />
     </class>
 
 
