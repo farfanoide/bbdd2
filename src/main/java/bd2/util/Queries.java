@@ -87,9 +87,9 @@ public class Queries {
   }
 
   /**
-   * Consulta b.
+   * Consulta b: Lista emails de los moderadores que hayan evaluado traducciones al ingles.
    *
-   * @param session the session
+   * @param session: Objeto SessionFactory
    */
   private static void consultaB(Session session) {
     Transaction tx = null;
@@ -120,9 +120,9 @@ public class Queries {
   }
 
   /**
-   * Consulta c.
+   * Consulta c: Lista usuarios que hayan iniciado una cursada del idioma Frances de nivel 3 o superior.
    *
-   * @param session the session
+   * @param session: Objeto SessionFactory
    */
   private static void consultaC(Session session) {
     Transaction tx = null;
@@ -154,11 +154,11 @@ public class Queries {
   }
 
   /**
-   * Consulta d.
+   * Consulta d: Lista los moderadores que hayan revisado alguna traduccion entre dos fechas recibidas por parametro.
    *
-   * @param session the session
-   * @param fechaInicio the fecha inicio
-   * @param fechaFin the fecha fin
+   * @param session: Objeto SessionFactory
+   * @param fechaInicio: Objeto Date que representa el inicio del rango a buscar las traducciones.
+   * @param fechaFin: Objeto Date que representa el fin del rango a buscar las traducciones.
    */
   private static void consultaD(Session session, Date fechaInicio, Date fechaFin) {
     Transaction tx = null;
@@ -191,9 +191,10 @@ public class Queries {
   }
 
   /**
-   * Consulta e.
+   * Consulta e: Lista traducciones completas del Ingles al Frances.
    *
-   * @param session the session
+   * @param session: Objeto SessionFactory
+   * 			
    */
   private static void consultaE(Session session) {
     Transaction tx = null;
@@ -224,9 +225,9 @@ public class Queries {
   }
 
   /**
-   * Consulta f.
+   * Consulta f: Lista los emails de los usuarios que tengan al menos una cursada aprobada.
    *
-   * @param session the session
+   * @param session: Objeto SessionFactory
    */
   private static void consultaF(Session session) {
     Transaction tx = null;
@@ -269,10 +270,10 @@ public class Queries {
   }
 
   /**
-   * Consulta g.
+   * Consulta g: Lista el idioma que define la palabra recibida por parametro en su diccionario.
    *
-   * @param session the session
-   * @param palabra the palabra
+   * @param session: Objeto SessionFactory
+   * @param palabra: Objeto String que representa la palabra de la cual vamos a buscar su idioma.
    */
   private static void consultaG(Session session, String palabra) {
     Transaction tx = null;
@@ -303,9 +304,9 @@ public class Queries {
   }
 
   /**
-   * Consulta h.
+   * Consulta h: Lista nombre de los documentos que no tengan parrafos traducidos.
    *
-   * @param session the session
+   * @param session: Objeto SessionFactory
    */
   private static void consultaH(Session session) {
     Transaction tx = null;
@@ -334,10 +335,10 @@ public class Queries {
   }
 
   /**
-   * Consulta i.
+   * Consulta i: Lista nombre de los documentos que tengan parrafos sin traducir en el idioma recibido como parametro.
    *
-   * @param session the session
-   * @param idioma the idioma
+   * @param session: Objeto SessionFactory
+   * @param idioma: Objeto String que representa el idioma por el cual vamos a buscar documentos sin traducir.
    */
   private static void consultaI(Session session, String idioma) {
         Transaction tx = null;
