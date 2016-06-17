@@ -15,29 +15,38 @@ import org.hibernate.cfg.Configuration;
 
 import bd2.model.*;
 
+/**
+ * The Class Queries.
+ */
 public class Queries {
 
+  /** The sessions. */
   private static SessionFactory sessions;
 
+  /**
+   * The main method.
+   *
+   * @param args the arguments
+   */
   public static void main(String[] args) {
       Configuration cfg = new Configuration();
       cfg.configure("hibernate/hibernate.cfg.xml");
       sessions = cfg.buildSessionFactory();
       Session session = sessions.openSession();
       try {
-          // consultaA(session);
-          // consultaB(session);
-          // consultaC(session);
-          // Calendar fechaInicio = Calendar.getInstance();
-          // fechaInicio.set(2015, 7, 1);
-          // Calendar fechaFin = Calendar.getInstance();
-          // fechaFin.set(2015, 12, 31);
-          // consultaD(session, fechaInicio.getTime(), fechaFin.getTime());
-          // consultaE(session);
+          consultaA(session);
+          consultaB(session);
+          consultaC(session);
+          Calendar fechaInicio = Calendar.getInstance();
+          fechaInicio.set(2015, 7, 1);
+          Calendar fechaFin = Calendar.getInstance();
+          fechaFin.set(2015, 12, 31);
+          consultaD(session, fechaInicio.getTime(), fechaFin.getTime());
+          consultaE(session);
           consultaF(session);
-          // consultaG(session, "Leuchtturm");
-          // consultaH(session);
-          // consultaI(session); // TODO: hacer ameo!
+          consultaG(session, "Leuchtturm");
+          consultaH(session);
+          consultaI(session, "Alemán");
       } catch (Exception e) {
           e.printStackTrace();
           session.close();
@@ -46,6 +55,12 @@ public class Queries {
           session.disconnect() ;}
   }
 
+  /**
+   * Consulta a.
+   *
+   * @param session the session
+   * 
+   */
   private static void consultaA(Session session) {
       Transaction tx = null;
       System.out.println("A. Listar los nombres de todos los documentos ");
@@ -71,6 +86,11 @@ public class Queries {
       }
   }
 
+  /**
+   * Consulta b.
+   *
+   * @param session the session
+   */
   private static void consultaB(Session session) {
     Transaction tx = null;
     System.out.println("B. Listar los emails de los moderadores que hayan evaluado traducciones al inglés.");
@@ -99,6 +119,11 @@ public class Queries {
     }
   }
 
+  /**
+   * Consulta c.
+   *
+   * @param session the session
+   */
   private static void consultaC(Session session) {
     Transaction tx = null;
     System.out.println("C. Listar los usuarios que hayan iniciado una cursada de Frances de nivel 3 como minimo.");
@@ -128,6 +153,13 @@ public class Queries {
     }
   }
 
+  /**
+   * Consulta d.
+   *
+   * @param session the session
+   * @param fechaInicio the fecha inicio
+   * @param fechaFin the fecha fin
+   */
   private static void consultaD(Session session, Date fechaInicio, Date fechaFin) {
     Transaction tx = null;
     System.out.println("D. Listar moderadores que hayan revisado alguna traducción entre dos fechas pasadas como argumento.");
@@ -158,6 +190,11 @@ public class Queries {
     }
   }
 
+  /**
+   * Consulta e.
+   *
+   * @param session the session
+   */
   private static void consultaE(Session session) {
     Transaction tx = null;
     System.out.println("E. Listar traducciones completas del Inglés al Francés.");
@@ -186,11 +223,31 @@ public class Queries {
     }
   }
 
+  /**
+   * Consulta f.
+   *
+   * @param session the session
+   */
   private static void consultaF(Session session) {
     Transaction tx = null;
     System.out.println("F. Obtener los emails de los usuarios con alguna cursada aprobada.");
 
-    Query query = session.createQuery("");
+    Query query = session.createQuery(" from Usuario u "
+            + " where exists ( "
+            + " from Cursada cursada"
+            + " where cursada in elements(u.cursadasRealizadas)"
+            + " and not exists ( "
+            + " from Leccion l "
+            + " where l in elements(cursada.curso.lecciones) "
+            + " and l not in ( "
+            + " from Leccion l2 "
+            + " where exists ( "
+            + " from Prueba p "
+            + " where p.puntaje >= 60 "
+            + " and p.leccion = l2 "
+            + " and p in elements(cursada.pruebas)"
+            + " and p.leccion in elements(cursada.curso.lecciones) )  "
+            + ") ) )");
 
     try {
       tx = session.beginTransaction();
@@ -211,6 +268,12 @@ public class Queries {
     }
   }
 
+  /**
+   * Consulta g.
+   *
+   * @param session the session
+   * @param palabra the palabra
+   */
   private static void consultaG(Session session, String palabra) {
     Transaction tx = null;
     System.out.println("G. Obtener el idioma que define la palabra enviada como parámetro en su diccionario.");
@@ -239,6 +302,11 @@ public class Queries {
     }
   }
 
+  /**
+   * Consulta h.
+   *
+   * @param session the session
+   */
   private static void consultaH(Session session) {
     Transaction tx = null;
     System.out.println(" H. Obtener los nombres de los documentos que no tengan ningún párrafo traducido (en ningún idioma) ");
@@ -264,4 +332,37 @@ public class Queries {
         tx.rollback();}
     }
   }
+
+  /**
+   * Consulta i.
+   *
+   * @param session the session
+   * @param idioma the idioma
+   */
+  private static void consultaI(Session session, String idioma) {
+        Transaction tx = null;
+        System.out.println("I. Obtener los nombres de los documentos que tengan párrafos sin traducir al idioma de nombre enviado como parámetro.");
+        System.out.println("Resultados para el parámetro: "+idioma);
+        Query query = session.createQuery("select distinct p.documento from Parrafo p"
+                + " where p not in ( select t.parrafo from Traduccion t"
+                + " where :idioma = t.idioma.nombre)").setParameter("idioma", idioma);
+
+        try {
+            tx = session.beginTransaction();
+            List<Documento> documentos = query.list();
+            tx.commit();
+            session.flush();
+            for (Documento documento: documentos) {
+                System.out.println("El documento "+documento.getNombre()+" no esta totalmente traducido.");
+            }
+            System.out.println();
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tx != null) {
+                tx.rollback();}
+        }
+    }
 }
