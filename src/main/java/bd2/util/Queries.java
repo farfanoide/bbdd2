@@ -35,7 +35,8 @@ public class Queries {
           // consultaD(session, fechaInicio.getTime(), fechaFin.getTime());
           // consultaE(session);
           // consultaF(session); TODO: hacer!
-          consultaG(session, "Leuchtturm");
+          // consultaG(session, "Leuchtturm");
+          consultaH(session);
       } catch (Exception e) {
           e.printStackTrace();
           session.close();
@@ -46,7 +47,7 @@ public class Queries {
 
   private static void consultaA(Session session) {
       Transaction tx = null;
-      System.out.println("A.	Listar los nombres de todos los documentos ");
+      System.out.println("A.    Listar los nombres de todos los documentos ");
 
       Query query = session.createQuery("from Documento");
 
@@ -71,7 +72,7 @@ public class Queries {
 
   private static void consultaB(Session session) {
     Transaction tx = null;
-    System.out.println("B.	Listar los emails de los moderadores que hayan evaluado traducciones al inglés.");
+    System.out.println("B.  Listar los emails de los moderadores que hayan evaluado traducciones al inglés.");
 
     Query query = session.createQuery("select email from Moderador m"
         + " where exists ( from Evaluacion e"
@@ -99,7 +100,7 @@ public class Queries {
 
   private static void consultaC(Session session) {
     Transaction tx = null;
-    System.out.println("C.	Listar los usuarios que hayan iniciado una cursada de Frances de nivel 3 como minimo.");
+    System.out.println("C.  Listar los usuarios que hayan iniciado una cursada de Frances de nivel 3 como minimo.");
 
     Query query = session.createQuery("from Usuario u "
         + " where exists ( from Cursada c"
@@ -128,7 +129,7 @@ public class Queries {
 
   private static void consultaD(Session session, Date fechaInicio, Date fechaFin) {
     Transaction tx = null;
-    System.out.println("D.	Listar moderadores que hayan revisado alguna traducción entre dos fechas pasadas como argumento.");
+    System.out.println("D.  Listar moderadores que hayan revisado alguna traducción entre dos fechas pasadas como argumento.");
     System.out.println("Resultado para los parámetros: "+fechaInicio+" hasta "+fechaFin);
 
     Query query = session.createQuery("from Moderador m "
@@ -158,7 +159,7 @@ public class Queries {
 
   private static void consultaE(Session session) {
     Transaction tx = null;
-    System.out.println("E.	Listar traducciones completas del Inglés al Francés.");
+    System.out.println("E.  Listar traducciones completas del Inglés al Francés.");
 
     Query query = session.createQuery("from Traduccion t "
         + " where t.idioma.nombre = 'Francés' "
@@ -186,39 +187,54 @@ public class Queries {
 
   private static void consultaG(Session session, String palabra) {
     Transaction tx = null;
-    System.out.println("G.	Obtener el idioma que define la palabra enviada como parámetro en su diccionario.");
+    System.out.println("G. Obtener el idioma que define la palabra enviada como parámetro en su diccionario.");
     System.out.println("Resultados para el parámetro: " + palabra);
 
-    // Query query = session.createQuery("from Idioma i where :palabra in elements("
-    //     + " select de.palabra from "
-    //     + " i.diccionario.definiciones as de)")
-    //     .setParameter("palabra", palabra);
-
-    // Query query = session.createQuery("from Idioma i where exists("
-    //     + " from i.diccionario.definiciones de "
-    //     + " where de.palabra = :palabra )")
-    //     .setParameter("palabra", palabra);
-
-
-    Query query = session.createQuery("from Diccionario d where :palabra in indices(d.definciones)")
-        .setParameter("palabra", palabra);
-    //                                 where d.definciones some elements()
-    //
-    // Query query = session.createQuery("select d.idioma from Diccionario d " +
-    //                                   "where d.definciones any in (" +
-    //                                   "select * from definiciones where palabra = :palabra" +
-    //                                   ")");
-
-    // select d.idioma from diccionario d where d.definciones in (
-    //         )
+    Query query = session.createQuery("select d.idioma from Diccionario d "
+            + " where :palabra in indices(d.definiciones)")
+            .setParameter("palabra", palabra);
 
     try {
       tx = session.beginTransaction();
-      List<Diccionario> diccionarios = query.list();
+      List<Idioma> idiomas = query.list();
       tx.commit();
       session.flush();
-      for (Diccionario diccionario: diccionarios) {
-        System.out.println("Nombre: " + diccionario);
+      for (Idioma idioma: idiomas) {
+        System.out.println("El idioma " + idioma.getNombre() + " define la palabra " + palabra);
+      }
+      System.out.println();
+
+    } catch (HibernateException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (tx != null) {
+        tx.rollback();}
+    }
+  }
+
+  private static void consultaH(Session session) {
+    Transaction tx = null;
+    System.out.println(" H. Obtener los nombres de los documentos que no tengan ningún párrafo traducido (en ningún idioma) ");
+
+    // Query query = session.createQuery("from Documento d "
+    //         + " where not exists (from Traduccion t"
+    //         + " where exists (from t.parrafo.documento))");
+
+    Query query = session.createQuery("from Documento d "
+            + " where not exists (from Traduccion.parrafo.documento)");
+
+    try {
+      tx = session.beginTransaction();
+      List<Documento> documentos = query.list();
+      // List<Traduccion> documentos = query.list();
+      tx.commit();
+      session.flush();
+      // for (Traduccion documento: documentos) {
+        // System.out.println("El documento " + documento.getId() + " no tiene ninguna traducción.");
+      // }
+      for (Documento documento: documentos) {
+        System.out.println("El documento " + documento.getNombre() + " no tiene ninguna traducción.");
       }
       System.out.println();
 
