@@ -34,9 +34,10 @@ public class Queries {
           // fechaFin.set(2015, 12, 31);
           // consultaD(session, fechaInicio.getTime(), fechaFin.getTime());
           // consultaE(session);
-          // consultaF(session); TODO: hacer!
+          consultaF(session);
           // consultaG(session, "Leuchtturm");
-          consultaH(session);
+          // consultaH(session);
+          // consultaI(session); // TODO: hacer ameo!
       } catch (Exception e) {
           e.printStackTrace();
           session.close();
@@ -47,7 +48,7 @@ public class Queries {
 
   private static void consultaA(Session session) {
       Transaction tx = null;
-      System.out.println("A.    Listar los nombres de todos los documentos ");
+      System.out.println("A. Listar los nombres de todos los documentos ");
 
       Query query = session.createQuery("from Documento");
 
@@ -72,7 +73,7 @@ public class Queries {
 
   private static void consultaB(Session session) {
     Transaction tx = null;
-    System.out.println("B.  Listar los emails de los moderadores que hayan evaluado traducciones al inglés.");
+    System.out.println("B. Listar los emails de los moderadores que hayan evaluado traducciones al inglés.");
 
     Query query = session.createQuery("select email from Moderador m"
         + " where exists ( from Evaluacion e"
@@ -100,7 +101,7 @@ public class Queries {
 
   private static void consultaC(Session session) {
     Transaction tx = null;
-    System.out.println("C.  Listar los usuarios que hayan iniciado una cursada de Frances de nivel 3 como minimo.");
+    System.out.println("C. Listar los usuarios que hayan iniciado una cursada de Frances de nivel 3 como minimo.");
 
     Query query = session.createQuery("from Usuario u "
         + " where exists ( from Cursada c"
@@ -129,7 +130,7 @@ public class Queries {
 
   private static void consultaD(Session session, Date fechaInicio, Date fechaFin) {
     Transaction tx = null;
-    System.out.println("D.  Listar moderadores que hayan revisado alguna traducción entre dos fechas pasadas como argumento.");
+    System.out.println("D. Listar moderadores que hayan revisado alguna traducción entre dos fechas pasadas como argumento.");
     System.out.println("Resultado para los parámetros: "+fechaInicio+" hasta "+fechaFin);
 
     Query query = session.createQuery("from Moderador m "
@@ -159,7 +160,7 @@ public class Queries {
 
   private static void consultaE(Session session) {
     Transaction tx = null;
-    System.out.println("E.  Listar traducciones completas del Inglés al Francés.");
+    System.out.println("E. Listar traducciones completas del Inglés al Francés.");
 
     Query query = session.createQuery("from Traduccion t "
         + " where t.idioma.nombre = 'Francés' "
@@ -173,6 +174,31 @@ public class Queries {
       session.flush();
       for (Traduccion traduccion: traducciones) {
         System.out.println("Nombre: " + traduccion.getDescripcion());
+      }
+      System.out.println();
+
+    } catch (HibernateException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (tx != null) {
+        tx.rollback();}
+    }
+  }
+
+  private static void consultaF(Session session) {
+    Transaction tx = null;
+    System.out.println("F. Obtener los emails de los usuarios con alguna cursada aprobada.");
+
+    Query query = session.createQuery("");
+
+    try {
+      tx = session.beginTransaction();
+      List<Usuario> usuarios = query.list();
+      tx.commit();
+      session.flush();
+      for (Usuario usuario: usuarios) {
+          System.out.println("Usuario con cursada aprobada: " + usuario.getEmail());
       }
       System.out.println();
 
@@ -217,22 +243,14 @@ public class Queries {
     Transaction tx = null;
     System.out.println(" H. Obtener los nombres de los documentos que no tengan ningún párrafo traducido (en ningún idioma) ");
 
-    // Query query = session.createQuery("from Documento d "
-    //         + " where not exists (from Traduccion t"
-    //         + " where exists (from t.parrafo.documento))");
-
     Query query = session.createQuery("from Documento d "
-            + " where not exists (from Traduccion.parrafo.documento)");
+            + " where d not in (select t.parrafo.documento from Traduccion t)");
 
     try {
       tx = session.beginTransaction();
       List<Documento> documentos = query.list();
-      // List<Traduccion> documentos = query.list();
       tx.commit();
       session.flush();
-      // for (Traduccion documento: documentos) {
-        // System.out.println("El documento " + documento.getId() + " no tiene ninguna traducción.");
-      // }
       for (Documento documento: documentos) {
         System.out.println("El documento " + documento.getNombre() + " no tiene ninguna traducción.");
       }
